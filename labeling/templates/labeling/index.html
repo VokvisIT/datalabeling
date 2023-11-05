@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'labeling/css/normalize.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'labeling/css/style.css' %}">
+    <title>Опрос</title>
+</head>
+<body>
+    <main class="main">
+        <header class="header">
+            Разметьте предложенный текст
+        </header>
+        <div class="descr">
+            {% if random_data.Type == 'Пост' %}
+                <div class="descr__section flex">
+                    <div class="descr__text">
+                        {% if random_data.Header %}
+                            <p><b>{{ random_data.Header }}</b></p>
+                        {% endif %}
+                        <p>{{ random_data.Text }}</p>
+                    </div>
+                    <div class="descr__description flex">
+                        <ul class="descr__list list-reset">
+                            {% if random_data.Data %}
+                                <li class="descr__item">Дата создания: {{ random_data.Data }}</li>
+                            {% endif %}
+                            {% if random_data.Time %}
+                                <li class="descr__item">Время создания: {{ random_data.Time }}</li>
+                            {% endif %}
+                            {% if random_data.Resource_Name %}
+                                <li class="descr__item">Ресурс: {{ random_data.Resource_Name }}</li>
+                            {% endif %}
+                            {% if random_data.Comments_Count %}
+                                <li class="descr__item">Кол-во комментариев: {{ random_data.Comments_Count }}</li>
+                            {% endif %}
+                            {% if random_data.Views %}
+                                <li class="descr__item">Кол-во просмотров: {{ random_data.Views }}</li>
+                            {% endif %}
+                            {% if random_data.Count_Positive_Reactions %}
+                                <li class="descr__item">Кол-во позитивных оценок: {{ random_data.Count_Positive_Reactions }}</li>
+                            {% endif %}
+                            {% if random_data.Count_Negative_Reactions %}
+                                <li class="descr__item">Кол-во негативных оценок: {{ random_data.Count_Negative_Reactions }}</li>
+                            {% endif %}
+                            {% if random_data.Reposts %}
+                                <li class="descr__item">Кол-во репостов: {{ random_data.Reposts }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            {% else %}
+            <div class="descr__section flex">
+                <div class="descr__text">
+                    <p>"{{ random_data.Comment_Text }}"</p>
+                </div>
+                <div class="descr__description flex">
+                    <ul class="descr__list list-reset">
+                        {% if random_data.Data %}
+                            <li class="descr__item">Дата создания: {{ random_data.Data }}</li>
+                        {% endif %}
+                        {% if random_data.Time %}
+                            <li class="descr__item">Время создания: {{ random_data.Time }}</li>
+                        {% endif %}
+                        {% if random_data.Resource_Name %}
+                            <li class="descr__item">Ресурс: {{ random_data.Resource_Name }}</li>
+                        {% endif %}
+                        {% if random_data.Comments_Count %}
+                            <li class="descr__item">Кол-во комментариев: {{ random_data.Comments_Count }}</li>
+                        {% endif %}
+                        {% if random_data.Views %}
+                            <li class="descr__item">Кол-во просмотров: {{ random_data.Views }}</li>
+                        {% endif %}
+                        {% if random_data.Count_Positive_Reactions %}
+                            <li class="descr__item">Кол-во позитивных оценок: {{ random_data.Count_Positive_Reactions }}</li>
+                        {% endif %}
+                        {% if random_data.Count_Negative_Reactions %}
+                            <li class="descr__item">Кол-во негативных оценок: {{ random_data.Count_Negative_Reactions }}</li>
+                        {% endif %}
+                        {% if random_data.Reposts %}
+                            <li class="descr__item">Кол-во репостов: {{ random_data.Reposts }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="descr__about">
+                <div class="about__header"><b>Комментарий был написан под следующим постом</b></div>
+                <div class="about__text">
+                    {% if random_data.Header %}
+                        <p>{{ random_data.Header }}</p>
+                    {% endif %}
+                    <p>{{ random_data.Text }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <form method="post" class="form">
+            {% csrf_token %}
+            {{ form.id }}
+            <div class="garbage">
+                Является ли пост МУСОРОМ? {{ form.Garbage }}
+            </div>
+            <div class="category">
+                <div class="category__header">К каким категориям вы бы отнесли данный текст?</div>
+                <div class="category__list">
+                    <ul>
+                        <li class="category__item">{{ form.Healthcare.label }} {{form.Healthcare}}</li>
+                        <li class="category__item">{{ form.Housing_and_Public_Utilities.label }} {{form.Housing_and_Public_Utilities}}</li>
+                        <li class="category__item">{{ form.Education.label }} {{form.Education}}</li>
+                        <li class="category__item">{{ form.Infrastructure.label }} {{form.Infrastructure}}</li>
+                        <li class="category__item">{{ form.Culture.label }} {{form.Culture}}</li>
+                        <li class="category__item">{{ form.Environmental_Conditions.label }} {{form.Environmental_Conditions}}</li>
+                        <li class="category__item">{{ form.Social_Security.label }} {{form.Social_Security}}</li>
+                        <li class="category__item">{{ form.Politics.label }} {{form.Politics}}</li>
+                        <li class="category__item">{{ form.Safety.label }} {{form.Safety}}</li>
+                        <li class="category__item">{{ form.Availability_of_Goods_and_Services.label }} {{form.Availability_of_Goods_and_Services}}</li>
+                        <li class="category__item">{{ form.Official_Statements.label }} {{form.Official_Statements}}</li>
+                        <li class="category__item">{{ form.Tourism.label }} {{form.Tourism}}</li>
+                        <li class="category__item">{{ form.Facts.label }} {{form.Facts}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tonaliti">
+                <div class="tonaliti__header">Какой эмоциональной окраской обладает текст?</div>
+                <div class="tonaliti__list">
+                    <ul>
+                        <li class="tonaliti__item">{{ form.Positive.label }} {{form.Positive}}</li>
+                        <li class="tonaliti__item">{{ form.Negative.label }} {{form.Negative}}</li>
+                        <li class="tonaliti__item">{{ form.Neutral.label }} {{form.Neutral}}</li>
+                    </ul>
+                </div>
+            </div>
+            <input type="submit" value="SUBMIT" class="btn">
+        </form>
+    </main>
+    <script src="{% static 'labeling/js/script.js' %}"></script>
+</body>
+</html>

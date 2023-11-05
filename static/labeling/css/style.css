@@ -1,0 +1,99 @@
+html {
+    box-sizing: border-box;
+    background-color: var(--html-bg);
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+img {
+    background: transparent;
+}
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+p {
+    margin: 0;
+}
+.list-reset {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.flex {
+    display: flex;
+}
+
+.main{
+    max-width: 900px;
+    margin: 0 auto;
+}
+.header {
+    text-align: center;
+    font-size: 40px;
+    padding: 10px;
+}
+.descr {
+    margin-bottom: 15px;
+}
+.descr__section {
+    justify-content: center;
+    border: 2px black solid;
+    border-radius: 20px;
+    padding: 10px 10px;
+    margin-bottom: 10px;
+
+}
+.descr__text{
+    max-width: 500px;
+    margin-right: 10px;
+    font-size: 24px;
+    
+}
+.descr__description{
+    align-items: center;
+}
+.descr__item {
+    font-size: 18px;
+}
+.form {
+    font-size: 20px;
+    
+}
+.btn {
+    margin: 0 auto;
+    background-color: #000; /* Задний фон в черном цвете */
+    color: #fff; /* Цвет текста в белом цвете */
+    border: 1px solid #000; /* Граничная линия черного цвета */
+    padding: 10px 20px; /* Отступы вокруг текста */
+    border-radius: 5px; /* Скругление углов */
+    text-align: center; /* Выравнивание текста по центру */
+    text-decoration: none; /* Убрать подчеркивание текста */
+    display: block; /* Сделать кнопку блочным элементом */
+    cursor: pointer; /* Изменение курсора при наведении */
+    font-weight: bold; /* Жирный шрифт */
+    font-size: 16px; /* Размер шрифта */
+    text-transform: uppercase; /* Преобразование текста в верхний регистр */
+  }
+  
+  .btn:hover {
+    background-color: #fff; /* Задний фон при наведении мыши становится белым */
+    color: #000; /* Цвет текста при наведении мыши становится черным */
+  }
+  .btn:focus {
+    outline: 4px solid rgb(255, 239, 15); /* Установите желаемый стиль для выделения фокуса */
+  }
+  
+  .descr__about {
+    justify-content: center;
+    border: 2px black solid;
+    border-radius: 20px;
+    padding: 10px 10px;
+    font-size: 18px;
+  }
