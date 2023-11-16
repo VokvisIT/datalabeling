@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import qest
+from .views import login_view, register_view, qest
 app_name = "labeling"
 urlpatterns = [
-  path("", qest, name="qest")
+  path('', login_view, name='login'),
+  path('register/', register_view, name='register'),
+  path('qest/', qest, name='qest'),
 ]

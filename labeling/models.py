@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django_extensions.db.fields import AutoSlugField
 
 class MyModelFirst(models.Model):
     Data = models.DateField()
@@ -31,3 +33,24 @@ class MyModelFirst(models.Model):
     Positive = models.BooleanField(null=True)
     Negative = models.BooleanField(null=True)
     Neutral = models.BooleanField(null=True)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
+    username = models.CharField(max_length=10, blank=False, null=True)  # Добавьте это поле
+    slug = AutoSlugField(populate_from="user", unique=True)
+    group_number = models.IntegerField(blank=True, null=True)
+    user_email = models.EmailField(unique=True)
+    count_task = models.IntegerField(blank=True, null=True, default=0)
+    def __str__(self):
+        return self.user.username
+
+    # @staticmethod
+    # def register(username, email, password, birthday):
+    #     user = User.objects.create_user(
+    #         username=username, email=email, password=password
+    #     )
+
+    #     profile = Profile(user=user, birthday=birthday)
+    #     profile.save()
+
+    #     return profile

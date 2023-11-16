@@ -25,10 +25,11 @@ SECRET_KEY = 'django-insecure-)5wc&%$w+dmxi_u2755#@lv*lh3d3ib%=06s98#ind60t)1xiz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'www.tomeo.pythonanywhere.com',
-    'tomeo.pythonanywhere.com'
-]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# [
+#     'www.tomeo.pythonanywhere.com',
+#     'tomeo.pythonanywhere.com'
+# ]
 
 
 # Application definition

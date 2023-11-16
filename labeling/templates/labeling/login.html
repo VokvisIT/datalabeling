@@ -1,0 +1,40 @@
+{% extends "labeling/base.html" %}
+{% load static %}
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'labeling/css/login.css' %}">
+{% endblock head %}
+{% block title %}
+    NArFU TOLOKA - Login
+{% endblock title %}
+{% block body %}
+<div class="logo">
+    <div class="center">
+        <div class="title">NArFU TOLOKA</div>
+        <div class="descr">Разметка данных для студентов</div>
+        <div class="link">
+            <a href="#">Read More</a>
+        </div>
+    </div>
+</div>
+<div class="login">
+    <div class="container">
+        <div class="login__title">
+            Привет, с возвращением!
+        </div>
+        <form action="POST" class="login__form" ">
+            {% csrf_token %}
+            <div class="login__input">
+                <input type="text" placeholder="Username" name="username">
+            </div>
+            <div class="login__input">
+                <input type="password" placeholder="Password" name="password">
+            </div>
+            <button type="submit" class="login_btn">Login</button>
+        </form>
+        <span>Нет аккаунта? <a href="{% url 'labeling:register' %}" class="reg">Зарегестрируйся</a></span>
+    </div>
+</div>
+
+
+
+{% endblock body %}

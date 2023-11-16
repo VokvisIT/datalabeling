@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+.flex {
+    display: flex;
+}
+.sidebar {
+    color: #ffffff;
+    background: linear-gradient(to top, #021B79, #0575E6);
+    display: flex;
+    height: 100vh; /* 100% высоты видимой области браузера */
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+.sidebar__container {
+    padding: 40px 20px;
+    flex-direction: column;
+}
+.sidebar__main {
+    flex: 1; /* Занимает все доступное пространство */
+}
+.sidebar__list {
+    align-items: center;
+    margin-bottom: 40px;
+}
+.sidebar__icon {
+    fill: #ffffff;
+    margin-right: 10px;
+}
+.sidebar__name {
+    font-weight: 700;
+}
+.sidebar__footer{
+    align-items: end;
+    text-align: center;
+}
+.sidebar__footer .title {
+    font-weight: 700;
+    font-size:24px;
+}
+.sidebar__footer .descr {
+    font-weight: 500;
+    font-size:15px;
+}
+.arrow {
+    width: 100%;
+    background-color: #ffffff;
+    height: 3px;
+    border-radius: 3px;
+    margin: 60px 0;
+}

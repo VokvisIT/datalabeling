@@ -2,8 +2,29 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from .models import MyModelFirst
 from .forms import SurveyForm
+from django.contrib.auth import login
+from .forms import RegisterForm, CustomAuthenticationForm
+from django.contrib.auth.views import LoginView
 
 # Create your views here.
+def register_view(request: HttpRequest):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            redirect('qest')  # Замените 'home' на ваш URL-путь
+    else:
+        form = RegisterForm()
+    return render(request, 'labeling/register.html', {'form': form})
+
+class CustomLoginView(LoginView):
+    authentication_form = CustomAuthenticationForm
+    template_name = 'labeling/login.html'  # Замените на ваш путь к шаблону
+
+def login_view(request: HttpRequest):
+    return CustomLoginView.as_view()(request)
+
 def qest(request: HttpRequest):
     if request.method == 'GET':
         # Получим случайную запись с полем Garbage=None

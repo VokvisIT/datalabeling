@@ -1,7 +1,10 @@
 from django import forms
-from .models import MyModelFirst  # Замените YourModel на имя вашей модели
+from .models import MyModelFirst, Profile
 from django.core.exceptions import ValidationError
 from django.forms.widgets import Select
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 
 class SurveyForm(forms.Form):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
@@ -81,3 +84,21 @@ class SurveyForm(forms.Form):
         instance.Neutral = self.cleaned_data['Neutral']
         
         instance.save()
+
+class CustomAuthenticationForm(AuthenticationForm):
+    class Meta:
+        model = Profile  # Используйте вашу модель Profile
+        fields = ['username', 'password']
+
+
+def validate_email(value):
+    if User.objects.filter(email=value).exists():
+        raise ValidationError((f"{value} уже занят."), params={"value": value})
+
+class RegisterForm(UserCreationForm):
+    username = forms.CharField()
+    group_number = forms.IntegerField(required=True)
+    user_email = forms.EmailField(required=True)
+    class Meta:
+        model = Profile
+        fields = ['username', 'group_number', 'user_email','password1', 'password2']
