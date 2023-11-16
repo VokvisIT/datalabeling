@@ -1,31 +1,46 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
-from .models import MyModelFirst
+from .models import MyModelFirst, Profile
 from .forms import SurveyForm
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login, logout
 from .forms import RegisterForm, CustomAuthenticationForm
 from django.contrib.auth.views import LoginView
 
-# Create your views here.
+
 def register_view(request: HttpRequest):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST or None)
+        print(5)
         if form.is_valid():
-            user = form.save()
+            print(6)
+            form.save()
+            username = form.cleaned_data.get("username")
+            raw_pas = form.cleaned_data.get("password2")
+            user = authenticate(username=username, password=raw_pas)
             login(request, user)
-            redirect('qest')  # Замените 'home' на ваш URL-путь
+            return redirect('labeling:qest')
     else:
         form = RegisterForm()
     return render(request, 'labeling/register.html', {'form': form})
 
-class CustomLoginView(LoginView):
-    authentication_form = CustomAuthenticationForm
-    template_name = 'labeling/login.html'  # Замените на ваш путь к шаблону
-
 def login_view(request: HttpRequest):
-    return CustomLoginView.as_view()(request)
+    if request.method == 'POST':
+        form = CustomAuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('labeling:qest')
+    else:
+        form = CustomAuthenticationForm()
+    return render(request, 'labeling/login.html', {'form': form})
+
+def logout_view(request: HttpRequest):
+    logout(request)
+    return redirect('labeling:login')
 
 def qest(request: HttpRequest):
+    if not request.user.is_authenticated:
+        return redirect('labeling:login')
     if request.method == 'GET':
         # Получим случайную запись с полем Garbage=None
         random_data = MyModelFirst.objects.filter(Garbage=None).order_by('?').first()
@@ -40,7 +55,7 @@ def qest(request: HttpRequest):
                 'form': form,
                 "random_data":random_data,
             }
-            return render(request, 'labeling/index.html', context=context)
+            return render(request, 'labeling/main.html', context=context)
         else:
             return HttpResponse("Больше данных для разметки нет!")
         
@@ -58,4 +73,4 @@ def qest(request: HttpRequest):
             'form': form,
             "random_data":random_data,
         }
-            return render(request, 'labeling/index.html', context=context)
+            return render(request, 'labeling/main.html', context=context)

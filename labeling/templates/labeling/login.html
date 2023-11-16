@@ -21,13 +21,13 @@
         <div class="login__title">
             Привет, с возвращением!
         </div>
-        <form action="POST" class="login__form" ">
+        <form method="POST" class="login__form">
             {% csrf_token %}
             <div class="login__input">
-                <input type="text" placeholder="Username" name="username">
+                {{ form.username }}
             </div>
             <div class="login__input">
-                <input type="password" placeholder="Password" name="password">
+                {{ form.password }}
             </div>
             <button type="submit" class="login_btn">Login</button>
         </form>

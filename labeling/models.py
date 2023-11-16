@@ -33,24 +33,25 @@ class MyModelFirst(models.Model):
     Positive = models.BooleanField(null=True)
     Negative = models.BooleanField(null=True)
     Neutral = models.BooleanField(null=True)
-
+    def __str__(self):
+        return f"ID: {self.id}. Текст с {self.Resource_Name}, тип: {self.Type}"
+    
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
-    username = models.CharField(max_length=10, blank=False, null=True)  # Добавьте это поле
-    slug = AutoSlugField(populate_from="user", unique=True)
-    group_number = models.IntegerField(blank=True, null=True)
-    user_email = models.EmailField(unique=True)
+    group_number = models.CharField(max_length=6, blank=True, null=True)
     count_task = models.IntegerField(blank=True, null=True, default=0)
     def __str__(self):
         return self.user.username
 
-    # @staticmethod
-    # def register(username, email, password, birthday):
-    #     user = User.objects.create_user(
-    #         username=username, email=email, password=password
-    #     )
-
-    #     profile = Profile(user=user, birthday=birthday)
-    #     profile.save()
-
-    #     return profile
+    @staticmethod
+    def register(username,first_name, last_name, email, password, group_number):
+        user = User.objects.create_user(
+            username=username,
+            first_name = first_name,
+            last_name = last_name,
+            email=email,
+            password=password,
+        )
+        profile = Profile(user=user, group_number=group_number, count_task=0)
+        profile.save()
+        return profile

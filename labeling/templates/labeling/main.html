@@ -1,0 +1,178 @@
+{% extends "labeling/base.html" %}
+{% load static %}
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'labeling/css/main.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'labeling/css/style.css' %}">
+{% endblock head %}
+
+{% block title %}
+    NArFU TOLOKA - Разметка
+{% endblock title %}
+
+{% block body %}
+<main class="main flex">
+    <div class="sidebar">
+        <div class="sidebar__container flex">
+            <div class="sidebar__main">
+                <div class="sidebar__list sidebar__user flex">
+                    <div class="sidebar__icon">
+                        <svg width="29" height="37" viewBox="0 0 29 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 35C2 27.9123 7.59645 22.1667 14.5 22.1667C21.4036 22.1667 27 27.9123 27 35M21.6429 9.33333C21.6429 13.3834 18.4448 16.6667 14.5 16.6667C10.5551 16.6667 7.35714 13.3834 7.35714 9.33333C7.35714 5.28324 10.5551 2 14.5 2C18.4448 2 21.6429 5.28324 21.6429 9.33333Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>                                
+                    </div>
+                    <div class="sidebar__name">
+                        user_name #351018
+                    </div>
+                </div>
+                <div class="arrow"></div>
+                <div class="sidebar__list sidebar__logout flex">
+                    <div class="sidebar__icon">
+                        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.25 17H32M32 17L26.375 11.375M32 17L26.375 22.625" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17C2 8.71572 8.71572 2 17 2M17 32C12.263 32 8.03891 29.8042 5.28993 26.375" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                            </svg>                                
+                    </div>
+                    <div class="sidebar__name">
+                        <a href="{% url 'labeling:logout' %}">Выход</a>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar__footer">
+                <div class="title">
+                    NArFU TOLOKA
+                </div>
+                <div class="descr">
+                    Разметка данных для студентов
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="markup">
+        <header class="header">
+            Разметьте предложенный текст
+        </header>
+        <div class="descr">
+            {% if random_data.Type == 'Пост' %}
+                <div class="descr__section flex">
+                    <div class="descr__text">
+                        {% if random_data.Header %}
+                            <p><b>{{ random_data.Header }}</b></p>
+                        {% endif %}
+                        <p>{{ random_data.Text }}</p>
+                    </div>
+                    <div class="descr__description flex">
+                        <ul class="descr__list list-reset">
+                            {% if random_data.Data %}
+                                <li class="descr__item">Дата создания: {{ random_data.Data }}</li>
+                            {% endif %}
+                            {% if random_data.Time %}
+                                <li class="descr__item">Время создания: {{ random_data.Time }}</li>
+                            {% endif %}
+                            {% if random_data.Resource_Name %}
+                                <li class="descr__item">Ресурс: {{ random_data.Resource_Name }}</li>
+                            {% endif %}
+                            {% if random_data.Comments_Count %}
+                                <li class="descr__item">Кол-во комментариев: {{ random_data.Comments_Count }}</li>
+                            {% endif %}
+                            {% if random_data.Views %}
+                                <li class="descr__item">Кол-во просмотров: {{ random_data.Views }}</li>
+                            {% endif %}
+                            {% if random_data.Count_Positive_Reactions %}
+                                <li class="descr__item">Кол-во позитивных оценок: {{ random_data.Count_Positive_Reactions }}</li>
+                            {% endif %}
+                            {% if random_data.Count_Negative_Reactions %}
+                                <li class="descr__item">Кол-во негативных оценок: {{ random_data.Count_Negative_Reactions }}</li>
+                            {% endif %}
+                            {% if random_data.Reposts %}
+                                <li class="descr__item">Кол-во репостов: {{ random_data.Reposts }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            {% else %}
+            <div class="descr__section flex">
+                <div class="descr__text">
+                    <p>"{{ random_data.Comment_Text }}"</p>
+                </div>
+                <div class="descr__description flex">
+                    <ul class="descr__list list-reset">
+                        {% if random_data.Data %}
+                            <li class="descr__item">Дата создания: {{ random_data.Data }}</li>
+                        {% endif %}
+                        {% if random_data.Time %}
+                            <li class="descr__item">Время создания: {{ random_data.Time }}</li>
+                        {% endif %}
+                        {% if random_data.Resource_Name %}
+                            <li class="descr__item">Ресурс: {{ random_data.Resource_Name }}</li>
+                        {% endif %}
+                        {% if random_data.Comments_Count %}
+                            <li class="descr__item">Кол-во комментариев: {{ random_data.Comments_Count }}</li>
+                        {% endif %}
+                        {% if random_data.Views %}
+                            <li class="descr__item">Кол-во просмотров: {{ random_data.Views }}</li>
+                        {% endif %}
+                        {% if random_data.Count_Positive_Reactions %}
+                            <li class="descr__item">Кол-во позитивных оценок: {{ random_data.Count_Positive_Reactions }}</li>
+                        {% endif %}
+                        {% if random_data.Count_Negative_Reactions %}
+                            <li class="descr__item">Кол-во негативных оценок: {{ random_data.Count_Negative_Reactions }}</li>
+                        {% endif %}
+                        {% if random_data.Reposts %}
+                            <li class="descr__item">Кол-во репостов: {{ random_data.Reposts }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="descr__about">
+                <div class="about__header"><b>Комментарий был написан под следующим постом</b></div>
+                <div class="about__text">
+                    {% if random_data.Header %}
+                        <p>{{ random_data.Header }}</p>
+                    {% endif %}
+                    <p>{{ random_data.Text }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <form method="post" class="form">
+            {% csrf_token %}
+            {{ form.id }}
+            <div class="garbage">
+                Является ли пост МУСОРОМ? {{ form.Garbage }}
+            </div>
+            <div class="category">
+                <div class="category__header">К каким категориям вы бы отнесли данный текст?</div>
+                <div class="category__list">
+                    <ul>
+                        <li class="category__item">{{ form.Healthcare.label }} {{form.Healthcare}}</li>
+                        <li class="category__item">{{ form.Housing_and_Public_Utilities.label }} {{form.Housing_and_Public_Utilities}}</li>
+                        <li class="category__item">{{ form.Education.label }} {{form.Education}}</li>
+                        <li class="category__item">{{ form.Infrastructure.label }} {{form.Infrastructure}}</li>
+                        <li class="category__item">{{ form.Culture.label }} {{form.Culture}}</li>
+                        <li class="category__item">{{ form.Environmental_Conditions.label }} {{form.Environmental_Conditions}}</li>
+                        <li class="category__item">{{ form.Social_Security.label }} {{form.Social_Security}}</li>
+                        <li class="category__item">{{ form.Politics.label }} {{form.Politics}}</li>
+                        <li class="category__item">{{ form.Safety.label }} {{form.Safety}}</li>
+                        <li class="category__item">{{ form.Availability_of_Goods_and_Services.label }} {{form.Availability_of_Goods_and_Services}}</li>
+                        <li class="category__item">{{ form.Official_Statements.label }} {{form.Official_Statements}}</li>
+                        <li class="category__item">{{ form.Tourism.label }} {{form.Tourism}}</li>
+                        <li class="category__item">{{ form.Facts.label }} {{form.Facts}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tonaliti">
+                <div class="tonaliti__header">Какой эмоциональной окраской обладает текст?</div>
+                <div class="tonaliti__list">
+                    <ul>
+                        <li class="tonaliti__item">{{ form.Positive.label }} {{form.Positive}}</li>
+                        <li class="tonaliti__item">{{ form.Negative.label }} {{form.Negative}}</li>
+                        <li class="tonaliti__item">{{ form.Neutral.label }} {{form.Neutral}}</li>
+                    </ul>
+                </div>
+            </div>
+            <input type="submit" value="SUBMIT" class="btn">
+        </form>
+    </div>
+</main>
+<script src="{% static 'labeling/js/script.js' %}"></script>
+{% endblock body %}

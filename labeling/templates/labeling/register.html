@@ -21,11 +21,31 @@
         <div class="login__title">
             Присоединяйся, что бы начать!
         </div>
-        <form action="POST" class="login__form" action="{% url 'register' %}">
+        <form method="POST" class="login__form">
+            {% csrf_token %}
+            {{ form.errors }}
             <div class="login__input">
-                <input type="text" placeholder="Полное имя" name="username">
+                {{ form.username }}
             </div>
             <div class="login__input">
+                {{ form.first_name }}
+            </div>
+            <div class="login__input">
+                {{ form.last_name }}
+            </div>
+            <div class="login__input">
+                {{ form.email }}
+            </div>
+            <div class="login__input">
+                {{ form.group_number }}
+            </div>
+            <div class="login__input">
+                {{ form.password1 }}
+            </div>
+            <div class="login__input">
+                {{ form.password2 }}
+            </div>
+            <!-- <div class="login__input">
                 <input type="number" placeholder="Номер группы" name="group_number">
             </div>
             <div class="login__input">
@@ -36,10 +56,10 @@
             </div>
             <div class="login__input">
                 <input type="password" placeholder="Повторите пароль" name="password2">
-            </div>
+            </div> -->
             <button type="submit" class="login_btn">Register</button>
         </form>
-        <span>Есть аккаунта? <a href="login.html" class="reg">Войти</a></span>
+        <span>Есть аккаунта? <a href="{% url 'labeling:login' %}" class="reg">Войти</a></span>
     </div>
 </div>
 
