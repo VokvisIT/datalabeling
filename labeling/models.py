@@ -16,7 +16,7 @@ class MyModelFirst(models.Model):
     Reposts = models.IntegerField(null=True, blank=True)
     Comment_Text = models.TextField(null=True, blank=True)
     Type = models.CharField(max_length=100)
-    # Count_Ton = models.IntegerField(null=True, blank=True, default=0)
+    
     Garbage = models.BooleanField(null=True)
     Healthcare = models.BooleanField(null=True)
     Housing_and_Public_Utilities = models.BooleanField(null=True)
@@ -34,6 +34,7 @@ class MyModelFirst(models.Model):
     Positive = models.BooleanField(null=True)
     Negative = models.BooleanField(null=True)
     Neutral = models.BooleanField(null=True)
+    Count_Ton = models.IntegerField(null=True, blank=True, default=0)
     def __str__(self):
         return f"ID: {self.id}. Текст с {self.Resource_Name}, тип: {self.Type}"
     def plus_count_ton(self):
