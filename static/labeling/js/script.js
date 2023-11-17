@@ -7,9 +7,9 @@ garbageSelect.addEventListener("change", function() {
     console.log("Выбрано: " + selectedValue);
     if (selectedValue == "True") {
         categoryDiv.style.display = "none"; // Убрать элемент
-        tonalitiDiv.style.display = "none"; // Убрать элемент
+        // tonalitiDiv.style.display = "none"; // Убрать элемент
       } else {
         categoryDiv.style.display = "block"; // Вернуть элемент
-        tonalitiDiv.style.display = "block"; // Вернуть элемент
+        // tonalitiDiv.style.display = "block"; // Вернуть элемент
       }
   });

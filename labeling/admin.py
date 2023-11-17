@@ -20,8 +20,8 @@ class MyModelFirstAdmin(admin.ModelAdmin):
             return obj.Header[:10] + "..."
         except:
             pass
-# @admin.register(Profile)
-# class ProfileAdmin(admin.ModelAdmin):
-#     list_display = 'id', 'username', 'slug', 'group_number', 'user_email', 'count_task'
-#     ordering = 'count_task',
-#     list_per_page = 10
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = 'id', 'count_task'
+    ordering = 'count_task',
+    list_per_page = 10
