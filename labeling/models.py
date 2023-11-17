@@ -16,7 +16,7 @@ class MyModelFirst(models.Model):
     Reposts = models.IntegerField(null=True, blank=True)
     Comment_Text = models.TextField(null=True, blank=True)
     Type = models.CharField(max_length=100)
-    Count_Ton = models.IntegerField(null=True, blank=True, default=0)
+    # Count_Ton = models.IntegerField(null=True, blank=True, default=0)
     Garbage = models.BooleanField(null=True)
     Healthcare = models.BooleanField(null=True)
     Housing_and_Public_Utilities = models.BooleanField(null=True)
