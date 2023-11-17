@@ -4,7 +4,7 @@ from .models import MyModelFirst, Profile
 
 @admin.register(MyModelFirst)
 class MyModelFirstAdmin(admin.ModelAdmin):
-    list_display = 'id', 'Data', 'Time', 'Resource_Name', 'head_short', 'text_short', 'Garbage', 'Healthcare', 'Housing_and_Public_Utilities', 'Education', 'Infrastructure', 'Culture', 'Environmental_Conditions', 'Social_Security', 'Politics', 'Safety', 'Availability_of_Goods_and_Services', 'Official_Statements', 'Tourism', 'Facts', 'Positive', 'Negative', 'Neutral'
+    list_display = 'id', 'Data', 'Time', 'Resource_Name', 'head_short', 'text_short','Count_Ton', 'Garbage', 'Healthcare', 'Housing_and_Public_Utilities', 'Education', 'Infrastructure', 'Culture', 'Environmental_Conditions', 'Social_Security', 'Politics', 'Safety', 'Availability_of_Goods_and_Services', 'Official_Statements', 'Tourism', 'Facts', 'Positive', 'Negative', 'Neutral'
     ordering = '-Garbage',
     list_per_page = 15
     
@@ -20,8 +20,8 @@ class MyModelFirstAdmin(admin.ModelAdmin):
             return obj.Header[:10] + "..."
         except:
             pass
-# @admin.register(Profile)
-# class ProfileAdmin(admin.ModelAdmin):
-#     list_display = 'id', 'username', 'slug', 'group_number', 'user_email', 'count_task'
-#     ordering = 'count_task',
-#     list_per_page = 10
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = 'id', 'count_task'
+    ordering = 'count_task',
+    list_per_page = 10

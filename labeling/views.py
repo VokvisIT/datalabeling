@@ -41,17 +41,15 @@ def logout_view(request: HttpRequest):
 def qest(request: HttpRequest):
     if not request.user.is_authenticated:
         return redirect('labeling:login')
+    profile = request.user.profile
     if request.method == 'GET':
-        # Получим случайную запись с полем Garbage=None
         random_data = MyModelFirst.objects.filter(Garbage=None).order_by('?').first()
-        # Проверка, что такие данные были найдены
         if random_data:
-            print("Я нашёл объект: " + str(random_data.id))
-            # Создаем форму на основе данных из случайной записи
             form = SurveyForm(initial={
-                'id': random_data.id,  # Передаем id запись в форму
+                'id': random_data.id,
             })
             context = {
+                'profile': profile,
                 'form': form,
                 "random_data":random_data,
             }
@@ -62,14 +60,30 @@ def qest(request: HttpRequest):
     elif request.method == 'POST':
         form = SurveyForm(request.POST)
         if form.is_valid():
-            data_id = form.cleaned_data['id']  # Получаем id из формы
-            form.save(data_id) # Обновляем запись с указанным id
-            print("Сохранил объект:" + str(data_id))
-            return redirect('labeling:qest')  # Перенаправляем на страницу успеха или куда вам нужно
+            data_id = form.cleaned_data['id'] 
+            form.save(data_id)
+            profile.increment_count_task()
+            # Получаем объект по data_id
+            obj = MyModelFirst.objects.get(id=data_id)
+            print(obj)
+            # Проверяем тип объекта
+            if obj.Type == 'Комментарий' and (form.cleaned_data['Garbage']):  # Замените 'type' на реальное поле, обозначающее тип объекта
+                selected_emotion = form.cleaned_data['selected_emotion']
+                Pos = selected_emotion == 'Positive'
+                Neg = selected_emotion == 'Negative'
+                post_obj = MyModelFirst.objects.filter(Text=obj.Text, Type='Пост').first()
+                print(post_obj)
+                if Pos:
+                    post_obj.plus_count_ton()
+                elif Neg:
+                    post_obj.minus_count_ton()
+
+            return redirect('labeling:qest') 
         else:
-            data_id = form.cleaned_data['id']  # Получаем id из формы
+            data_id = form.cleaned_data['id']
             random_data = MyModelFirst.objects.get(id=data_id)
             context = {
+            'profile': profile,
             'form': form,
             "random_data":random_data,
         }

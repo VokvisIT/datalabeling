@@ -14,75 +14,71 @@ class SurveyForm(forms.Form):
         label="Мусор",
         initial=False
     )
-    Healthcare = forms.BooleanField(required=False, label="Здравоохранение")
-    Housing_and_Public_Utilities = forms.BooleanField(required=False, label="ЖКХ")
-    Education = forms.BooleanField(required=False, label="Образование")
-    Infrastructure = forms.BooleanField(required=False, label="Инфраструктура")
-    Culture = forms.BooleanField(required=False, label="Культура")
-    Environmental_Conditions = forms.BooleanField(required=False, label="Экология")
-    Social_Security = forms.BooleanField(required=False, label="Социальное обеспечение")
-    Politics = forms.BooleanField(required=False, label="Политика")
-    Safety = forms.BooleanField(required=False, label="Безопасность")
-    Availability_of_Goods_and_Services = forms.BooleanField(required=False, label="Доступность товаров и услуг")
-    Official_Statements = forms.BooleanField(required=False, label="Официальные заявления")
-    Tourism = forms.BooleanField(required=False, label="Туризм")
-    Facts = forms.BooleanField(required=False, label="Факты")
-    Positive = forms.BooleanField(required=False, label="Позитивная")
-    Negative = forms.BooleanField(required=False, label="Негативная")
-    Neutral = forms.BooleanField(required=False, label="Нейтральная")
+    CHOICES_Tonality = [
+        ('Positive', 'Позитивная'),
+        ('Negative', 'Негативная'),
+        ('Neutral', 'Нейтральная'),
+    ]
+    CHOICES = [
+        ('Healthcare', 'Здравоохранение'),
+        ('Housing_and_Public_Utilities', 'ЖКХ'),
+        ('Education', 'Образование'),
+        ('Infrastructure', 'Инфраструктура'),
+        ('Culture', 'Культура'),
+        ('Environmental_Conditions', 'Экология'),
+        ('Social_Security', 'Социальное обеспечение'),
+        ('Politics', 'Политика'),
+        ('Safety', 'Безопасность'),
+        ('Availability_of_Goods_and_Services', 'Доступность товаров и услуг'),
+        ('Official_Statements', 'Официальные заявления'),
+        ('Tourism', 'Туризм'),
+        ('Facts', 'Факты'),
+        ('Another', "Другая..."), # Пустой элемент
+    ]
+    selected_field = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'class': 'form-selected_field'}))
+    selected_emotion = forms.ChoiceField(
+        choices=CHOICES_Tonality,
+        widget=forms.RadioSelect(attrs={'class': 'form-selected_emotion'}),
+        label='Выберите эмоцию',
+        required=False,
+    )
 
     def clean(self):
         cleaned_data = super().clean()
         Garbage = bool(cleaned_data['Garbage'])
-        Positive = cleaned_data['Positive']
-        Negative = cleaned_data['Negative']
-        Neutral = cleaned_data['Neutral']
+        selected_field = cleaned_data['selected_field']
+        selected_emotion = self.cleaned_data['selected_emotion']
+        text_garbage = selected_field == 'Another'
+        Positive = selected_emotion == 'Positive'
+        Negative = selected_emotion == 'Negative'
+        Neutral = selected_emotion == 'Neutral'
         print(Positive, Negative, Neutral)
         print(Garbage, type(Garbage))
-        if Garbage:
-            # Если Garbage равно True, устанавливаем все булевые поля на False
-            for field_name in ['Healthcare', 'Housing_and_Public_Utilities', 'Education', 'Infrastructure',
-                               'Culture', 'Environmental_Conditions', 'Social_Security', 'Politics',
-                               'Safety', 'Availability_of_Goods_and_Services', 'Official_Statements', 'Tourism', 'Facts','Positive','Negative', 'Neutral']:
-                cleaned_data[field_name] = False
-            print("1 Условие выполнено")
-        else:
-            # Если Garbage равно False, проверяем, что хотя бы одно из Positive, Negative или Neutral выбрано
-            if not (Positive or Negative or Neutral):
-                print("2 Условие выполнено")
-                raise forms.ValidationError("Выберите хотя бы одно из полей Positive, Negative или Neutral.")
-            # Проверка, что ни одно из полей от Healthcare до Facts не выбрано
-            if not any([
-                cleaned_data[field_name]
-                for field_name in ['Healthcare', 'Housing_and_Public_Utilities', 'Education', 'Infrastructure',
-                                  'Culture', 'Environmental_Conditions', 'Social_Security', 'Politics',
-                                  'Safety', 'Availability_of_Goods_and_Services', 'Official_Statements', 'Tourism', 'Facts']
-            ]):
-                # Если ни одно из полей от Healthcare до Facts не выбрано, устанавливаем Garbage в True
-                cleaned_data['Garbage'] = True
-                print("3 Условие выполнено")
-        print(cleaned_data)
-
+        if not (Positive or Negative or Neutral):
+            raise forms.ValidationError("Выберите Тональность.")
+        if text_garbage:
+            cleaned_data['Garbage'] = True
     def save(self, id):
         instance = MyModelFirst.objects.get(id=id)
+        selected_field = self.cleaned_data['selected_field']
+        selected_emotion = self.cleaned_data['selected_emotion']
         instance.Garbage = self.cleaned_data['Garbage']
-        instance.Healthcare = self.cleaned_data['Healthcare']
-        instance.Housing_and_Public_Utilities = self.cleaned_data['Housing_and_Public_Utilities']
-        instance.Education = self.cleaned_data['Education']
-        instance.Infrastructure = self.cleaned_data['Infrastructure']
-        instance.Culture = self.cleaned_data['Culture']
-        instance.Environmental_Conditions = self.cleaned_data['Environmental_Conditions']
-        instance.Social_Security = self.cleaned_data['Social_Security']
-        instance.Politics = self.cleaned_data['Politics']
-        instance.Safety = self.cleaned_data['Safety']
-        instance.Availability_of_Goods_and_Services = self.cleaned_data['Availability_of_Goods_and_Services']
-        instance.Official_Statements = self.cleaned_data['Official_Statements']
-        instance.Tourism = self.cleaned_data['Tourism']
-        instance.Facts = self.cleaned_data['Facts']
-        instance.Positive = self.cleaned_data['Positive']
-        instance.Negative = self.cleaned_data['Negative']
-        instance.Neutral = self.cleaned_data['Neutral']
-        
+        instance.Healthcare = selected_field == 'Healthcare'
+        instance.Housing_and_Public_Utilities = selected_field == 'Housing_and_Public_Utilities'
+        instance.Education = selected_field == 'Education'
+        instance.Infrastructure = selected_field == 'Infrastructure'
+        instance.Culture = selected_field == 'Culture'
+        instance.Environmental_Conditions = selected_field == 'Environmental_Conditions'
+        instance.Social_Security = selected_field == 'Social_Security'
+        instance.Politics = selected_field == 'Politics'
+        instance.Safety = selected_field == 'Safety'
+        instance.Availability_of_Goods_and_Services = selected_field == 'Availability_of_Goods_and_Services'
+        instance.Official_Statements = selected_field == 'Official_Statements'
+        instance.Tourism =  selected_field == 'Tourism'
+        instance.Facts = selected_field == 'Facts'
+        instance.Positive = selected_emotion == 'Positive'
+        instance.Negative = selected_emotion == 'Negative'
+        instance.Neutral =  selected_emotion == 'Neutral'
         instance.save()
 
 class CustomAuthenticationForm(AuthenticationForm):
