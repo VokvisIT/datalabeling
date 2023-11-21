@@ -47,6 +47,7 @@ def qest(request: HttpRequest):
         if random_data:
             form = SurveyForm(initial={
                 'id': random_data.id,
+                'type_text': random_data.Type,
             })
             context = {
                 'profile': profile,

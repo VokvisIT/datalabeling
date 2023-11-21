@@ -9,6 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 class SurveyForm(forms.Form):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+    type_text = forms.CharField(widget=forms.HiddenInput(), required=False)
     Garbage = forms.NullBooleanField(
         widget=Select(choices=[(True, 'Да'), (False, 'Нет')]),
         required=True,
@@ -34,7 +35,7 @@ class SurveyForm(forms.Form):
         ('Official_Statements', 'Официальные заявления'),
         ('Tourism', 'Туризм'),
         ('Facts', 'Факты'),
-        ('Another', "Другая..."), # Пустой элемент
+        ('Another', "Другое..."), # Пустой элемент
     ]
     selected_field = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'class': 'form-selected_field'}))
     selected_emotion = forms.ChoiceField(
@@ -47,18 +48,29 @@ class SurveyForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         Garbage = bool(cleaned_data['Garbage'])
+        type_text = cleaned_data['type_text']
         selected_field = cleaned_data['selected_field']
         selected_emotion = self.cleaned_data['selected_emotion']
         text_garbage = selected_field == 'Another'
         Positive = selected_emotion == 'Positive'
         Negative = selected_emotion == 'Negative'
         Neutral = selected_emotion == 'Neutral'
-        print(Positive, Negative, Neutral)
-        print(Garbage, type(Garbage))
-        if not (Positive or Negative or Neutral):
-            raise forms.ValidationError("Выберите Тональность.")
-        if text_garbage:
-            cleaned_data['Garbage'] = True
+        if type_text == 'Пост':
+            if not Garbage:
+                if not (Positive or Negative or Neutral):
+                    self.add_error('selected_emotion', "Выберите тональность.")
+                if text_garbage:
+                    cleaned_data['Garbage'] = True
+        else:
+            if Garbage:
+                if not (Positive or Negative or Neutral):
+                    self.add_error('selected_emotion', "Нам пригодится тональность этого комментария.")
+            else:
+                if not (Positive or Negative or Neutral):
+                    self.add_error('selected_emotion', "Нам пригодится тональность этого комментария.")
+                if text_garbage:
+                    cleaned_data['Garbage'] = True
+
     def save(self, id):
         instance = MyModelFirst.objects.get(id=id)
         selected_field = self.cleaned_data['selected_field']

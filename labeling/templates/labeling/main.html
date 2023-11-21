@@ -88,8 +88,8 @@
                 <div class="arrow__form"></div>
                 <form method="post" class="form">
                     {% csrf_token %}
-                    {{ form.errors }}
                     {{ form.id }}
+                    {{ form.type_text }}
                     <div class="garbage">
                         Является ли пост МУСОРОМ? {{ form.Garbage }}
                     </div>
@@ -103,6 +103,7 @@
                     </div>
                     <div class="tonaliti">
                         <div class="tonaliti__header">Какой эмоциональной окраской обладает текст?</div>
+                        {{ form.selected_emotion.errors }}
                         <div class="tonaliti__list">
                             <ul>
                                 {{ form.selected_emotion }}
