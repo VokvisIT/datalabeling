@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+* {
+    box-sizing: border-box;
+}
 body {
     /* background: linear-gradient(to top, #021B79, #0575E6); */
     display: flex;
@@ -68,12 +71,21 @@ body {
     margin-bottom: 15px;
 }
 .login__input input{
+    width: 100%;
     border-radius: 30px;
     padding: 18px 26px;
     font-size: 14px;
     border-color: #EEEEEE;
     border: 1 px solid;
-    width: 300px;
+
+}
+.errorlist {
+    margin: 10px 0;
+    padding: 0 26px;
+    list-style: none;
+}
+.errorlist li{
+    font-size: 15px;
 }
 .login_btn {
     width: 100%;

@@ -1,7 +1,7 @@
 {% extends "labeling/base.html" %}
 {% load static %}
 {% block head %}
-  <link rel="stylesheet" type="text/css" href="{% static 'labeling/css/login.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'labeling/css/login.css' %}">
 {% endblock head %}
 {% block title %}
     NArFU TOLOKA - Login
@@ -11,9 +11,9 @@
     <div class="center">
         <div class="title">NArFU TOLOKA</div>
         <div class="descr">Разметка данных для студентов</div>
-        <div class="link">
+        <!-- <div class="link">
             <a href="#">Read More</a>
-        </div>
+        </div> -->
     </div>
 </div>
 <div class="login">
@@ -31,7 +31,7 @@
             </div>
             <button type="submit" class="login_btn">Login</button>
         </form>
-        <span>Нет аккаунта? <a href="{% url 'labeling:register' %}" class="reg">Зарегестрируйся</a></span>
+        <span>Нет аккаунта? <a href="{% url 'labeling:register' %}" class="reg">Зарегистрируйся</a></span>
     </div>
 </div>
 

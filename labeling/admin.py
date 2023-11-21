@@ -1,4 +1,7 @@
+from typing import Any
 from django.contrib import admin
+from django.db.models.query import QuerySet
+from django.http.request import HttpRequest
 
 from .models import MyModelFirst, Profile
 
@@ -22,6 +25,8 @@ class MyModelFirstAdmin(admin.ModelAdmin):
             pass
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = 'id', 'count_task'
+    list_display = 'id','user', 'count_task',
     ordering = 'count_task',
-    list_per_page = 10
+    list_per_page = 20
+    def get_queryset(self, request: HttpRequest):
+        return Profile.objects.select_related("user")

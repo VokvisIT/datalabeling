@@ -89,11 +89,11 @@ class CustomAuthenticationForm(AuthenticationForm):
         fields = ['username', 'password']
 
 class RegisterForm(UserCreationForm):
-    username = forms.CharField(label='username', min_length=5, max_length=10, widget=forms.TextInput(attrs={'placeholder': 'Введите ваш username'}))
-    first_name = forms.CharField(label='first_name', min_length=4, max_length=15, widget=forms.TextInput(attrs={'placeholder': 'Введите ваше имя'}))
-    last_name = forms.CharField(label='last_name', min_length=4, max_length=15, widget=forms.TextInput(attrs={'placeholder': 'Введите вашу фамилию'}))
+    username = forms.CharField(label='username', min_length=3, max_length=15, widget=forms.TextInput(attrs={'placeholder': 'Введите ваш username'}))
+    first_name = forms.CharField(label='first_name',  max_length=15, widget=forms.TextInput(attrs={'placeholder': 'Введите ваше имя'}))
+    last_name = forms.CharField(label='last_name',  max_length=15, widget=forms.TextInput(attrs={'placeholder': 'Введите вашу фамилию'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Введите вашу корп. почту'}))
-    group_number = forms.CharField(required=True, max_length=6, widget=forms.TextInput(attrs={'placeholder': 'Введите ваш номер группы'}))
+    group_number = forms.CharField(required=True, max_length=6, widget=forms.TextInput(attrs={'placeholder': 'Введите номер группы'}))
     password1 = forms.CharField(label="Введите пароль", widget=forms.PasswordInput(attrs={'placeholder': 'Введите пароль'}))
     password2 = forms.CharField(label="Повторите пароль", widget=forms.PasswordInput(attrs={'placeholder': 'Повторите пароль'}))
     
@@ -106,14 +106,14 @@ class RegisterForm(UserCreationForm):
         username = cleaned_data['username'].lower()
         new = User.objects.filter(username=username)
         if new.count():
-            raise ValidationError("Пользователь уже существует")
+            raise ValidationError("Данный username уже занят!")
         return username
 
     def clean_email(self):
         email = self.cleaned_data['email'].lower()
         new = User.objects.filter(email=email)
         if new.count():
-            raise ValidationError("Email уже существует")
+            raise ValidationError("Почта уже занята!")
         return email
     def clean_last_name(self):
         last_name = self.cleaned_data['last_name'].lower()
@@ -128,7 +128,7 @@ class RegisterForm(UserCreationForm):
         password2 = self.cleaned_data['password2']
 
         if password1 and password2 and password1 != password2:
-            raise ValidationError("Пароли не совпадают")
+            raise ValidationError("Пароли не совпадают!")
         return password2
 
     def save(self):  # исправлен метод save
