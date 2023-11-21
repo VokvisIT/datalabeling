@@ -43,7 +43,7 @@ def qest(request: HttpRequest):
         return redirect('labeling:login')
     profile = request.user.profile
     if request.method == 'GET':
-        random_data = MyModelFirst.objects.filter(Garbage=None).order_by('?').first()
+        random_data = MyModelFirst.objects.exclude(Text='').filter(Garbage=None).order_by('?').first()
         if random_data:
             form = SurveyForm(initial={
                 'id': random_data.id,
