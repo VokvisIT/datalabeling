@@ -42,14 +42,19 @@ def qest(request: HttpRequest):
     if not request.user.is_authenticated:
         return redirect('labeling:login')
     profile = request.user.profile
+    garbage_count = MyModelFirst.objects.filter(Garbage=True).count()
+    not_garbage_count = MyModelFirst.objects.filter(Garbage=False).count()
     if request.method == 'GET':
         random_data = MyModelFirst.objects.exclude(Text='').filter(Garbage=None).order_by('?').first()
+        print(random_data.id)
         if random_data:
             form = SurveyForm(initial={
                 'id': random_data.id,
                 'type_text': random_data.Type,
             })
             context = {
+                'garbage_count': garbage_count,
+                'not_garbage_count': not_garbage_count,
                 'profile': profile,
                 'form': form,
                 "random_data":random_data,
@@ -66,14 +71,12 @@ def qest(request: HttpRequest):
             profile.increment_count_task()
             # Получаем объект по data_id
             obj = MyModelFirst.objects.get(id=data_id)
-            print(obj)
             # Проверяем тип объекта
             if obj.Type == 'Комментарий' and (form.cleaned_data['Garbage']):  # Замените 'type' на реальное поле, обозначающее тип объекта
                 selected_emotion = form.cleaned_data['selected_emotion']
                 Pos = selected_emotion == 'Positive'
                 Neg = selected_emotion == 'Negative'
                 post_obj = MyModelFirst.objects.filter(Text=obj.Text, Type='Пост').first()
-                print(post_obj)
                 if Pos:
                     post_obj.plus_count_ton()
                 elif Neg:
@@ -84,8 +87,10 @@ def qest(request: HttpRequest):
             data_id = form.cleaned_data['id']
             random_data = MyModelFirst.objects.get(id=data_id)
             context = {
-            'profile': profile,
-            'form': form,
-            "random_data":random_data,
-        }
+                'garbage_count': garbage_count,
+                'not_garbage_count': not_garbage_count,
+                'profile': profile,
+                'form': form,
+                "random_data":random_data,
+            }
             return render(request, 'labeling/main.html', context=context)

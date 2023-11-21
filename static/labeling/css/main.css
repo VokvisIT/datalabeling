@@ -118,6 +118,7 @@ p {
     display: flex;
 }
 .sidebar {
+    width: 300px;
     color: #ffffff;
     background: linear-gradient(to top, #021B79, #0575E6);
     display: flex;
@@ -143,6 +144,9 @@ p {
 }
 .sidebar__name {
     font-weight: 700;
+}
+.sidebar__name--compleated {
+    color: yellow;
 }
 .sidebar__footer{
     align-items: end;

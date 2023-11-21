@@ -24,11 +24,33 @@
                     </div>
                 </div>
                 <div class="sidebar__list sidebar__user flex">
-                    
+                    {% if profile.count_task <= 1000 %}
                     <div class="sidebar__name">
                         Вы разметили {{ profile.count_task }}/1000
                     </div>
+                    {% else %}
+                    <div class="sidebar__name sidebar__name--compleated">
+                        Работа Выполнена! Ты разметил {{ profile.count_task }} записей!
+                    </div>
+                    {% endif %}
                 </div>
+                {% if profile.user.is_superuser %}
+                <div class="sidebar__list sidebar__user flex">
+                    <div class="sidebar__name">
+                        Всего размечено: {{ garbage_count|default:0|add:not_garbage_count|default:0 }}
+                    </div>
+                </div>
+                <div class="sidebar__list sidebar__user flex">
+                    <div class="sidebar__name">
+                        Релевантные: {{ not_garbage_count }}
+                    </div>
+                </div>
+                <div class="sidebar__list sidebar__user flex">
+                    <div class="sidebar__name">
+                        Мусор: {{ garbage_count }}
+                    </div>
+                </div>
+                {% endif %}
                 <div class="arrow"></div>
                 <div class="sidebar__list sidebar__logout flex">
                     <div class="sidebar__icon">

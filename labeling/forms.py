@@ -92,6 +92,8 @@ class SurveyForm(forms.Form):
         instance.Positive = selected_emotion == 'Positive'
         instance.Negative = selected_emotion == 'Negative'
         instance.Neutral =  selected_emotion == 'Neutral'
+        print('Save')
+        print(id)
         instance.save()
 
 class CustomAuthenticationForm(AuthenticationForm):
