@@ -48,6 +48,7 @@ body {
 }
 .container {
     color: #333333;
+    width: 350px;
 }
 .login {
     display: flex;
@@ -79,7 +80,7 @@ body {
     border: 1 px solid;
 
 }
-.errorlist {
+.errorlist, .error-message {
     margin: 10px 0;
     padding: 0 26px;
     list-style: none;

@@ -1,3 +1,4 @@
+
 from django import forms
 from .models import MyModelFirst, Profile
 from django.core.exceptions import ValidationError
@@ -5,7 +6,7 @@ from django.forms.widgets import Select
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
-
+from django.utils.translation import gettext_lazy as _
 class SurveyForm(forms.Form):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     Garbage = forms.NullBooleanField(
@@ -82,8 +83,20 @@ class SurveyForm(forms.Form):
         instance.save()
 
 class CustomAuthenticationForm(AuthenticationForm):
-    username = forms.CharField(label='username', widget=forms.TextInput(attrs={'placeholder': 'username'}))
-    password = forms.CharField(label="Введите пароль", widget=forms.PasswordInput(attrs={'placeholder': 'password'}))
+    username = forms.CharField(
+        label='username',
+        widget=forms.TextInput(attrs={'placeholder': 'username'}),
+        )
+    password = forms.CharField(
+        label="Введите пароль",
+        widget=forms.PasswordInput(attrs={'placeholder': 'password'}),
+        )
+    error_messages = {
+        'invalid_login': _(
+            "Пожалуйста проверьте username и password. Убедитесь, что вы ввели их корректно."
+        ),
+        'inactive': _("This account is inactive."),
+    }
     class Meta:
         model = User  # Используйте вашу модель Profile
         fields = ['username', 'password']
